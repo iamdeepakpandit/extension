@@ -1,7 +1,12 @@
 {
-  "name": "node-starter",
+  "name": "price-checker-project",
   "private": true,
   "scripts": {
+    "start": "node index.js",
+    "backend": "cd backend && npm start",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "child_process": "^1.0.2"
   }
 }

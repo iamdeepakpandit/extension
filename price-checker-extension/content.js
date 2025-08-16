@@ -69,8 +69,8 @@
         price: [
           '.Label-sc-15v1nk5-0.Pricing___StyledLabel2-sc-pldi2d-9',
           '.discnt-price',
-          '.price',
-          '.selling-price'
+          '.selling-price',
+          '.price'
         ]
       }
     }
@@ -101,22 +101,22 @@
   // Clean and format price
   function cleanPrice(priceText) {
     if (!priceText) return null;
-    
+
     // Remove extra whitespace and extract price
     const cleanText = priceText.replace(/\s+/g, ' ').trim();
-    
+
     // Extract price patterns (₹1,999 or $19.99 etc.)
     const priceMatch = cleanText.match(/[₹$][\d,]+(?:\.\d{2})?/);
     if (priceMatch) {
       return priceMatch[0];
     }
-    
+
     // Fallback: look for numbers with currency symbols
     const numberMatch = cleanText.match(/[\d,]+(?:\.\d{2})?/);
     if (numberMatch) {
       return `₹${numberMatch[0]}`;
     }
-    
+
     return cleanText;
   }
 
@@ -215,7 +215,7 @@
     return platforms.map(platform => {
       const data = prices[platform];
       const isBestDeal = bestDeal && bestDeal.platform === platform;
-      
+
       return `
         <div class="pc-price-card ${data.available ? 'available' : 'unavailable'} ${isBestDeal ? 'best-deal' : ''}">
           <div class="pc-platform">${platformNames[platform]}</div>
@@ -247,7 +247,7 @@
     const productInfo = extractProductInfo();
     if (productInfo && productInfo.productName) {
       console.log('Product page detected, ready for price checking');
-      
+
       // Show a subtle indicator that price checking is available
       showPriceCheckIndicator();
     }
@@ -300,12 +300,12 @@
     data: productInfo
   }, (response) => {
     hideLoading();
-    
+
     if (chrome.runtime.lastError) {
       showError('Extension error: ' + chrome.runtime.lastError.message);
       return;
     }
-    
+
     if (response && response.success) {
       showPriceWidget(response.data);
     } else {

@@ -1,8 +1,6 @@
 // Background service worker for Chrome Extension
 
-const API_BASE_URL = window.location.hostname.includes('replit') 
-  ? `https://${window.location.hostname}/api` 
-  : 'http://localhost:5000/api';
+const API_BASE_URL = 'http://0.0.0.0:5000';
 
 // Listen for messages from content script or popup
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -30,7 +28,7 @@ async function handlePriceComparison(productData) {
 
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
-    
+
     const response = await fetch(`${API_BASE_URL}/prices`, {
       method: 'POST',
       headers: {
@@ -43,7 +41,7 @@ async function handlePriceComparison(productData) {
       }),
       signal: controller.signal
     });
-    
+
     clearTimeout(timeoutId);
 
     if (!response.ok) {
@@ -73,7 +71,7 @@ async function checkBackendHealth() {
   try {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
-    
+
     const response = await fetch(`${API_BASE_URL}/health`, {
       method: 'GET',
       headers: {
@@ -81,7 +79,7 @@ async function checkBackendHealth() {
       },
       signal: controller.signal
     });
-    
+
     clearTimeout(timeoutId);
 
     if (!response.ok) {

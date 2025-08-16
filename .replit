@@ -8,12 +8,25 @@ channel = "stable-25_05"
 run = ["sh", "-c", "node index.js"]
 
 [workflows]
-runButton = "Start Backend"
+runButton = "Setup and Start"
 
 [[workflows.workflow]]
 name = "Start Backend"
 author = 46497786
 mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd backend && npm start"
+
+[[workflows.workflow]]
+name = "Setup and Start"
+author = 46497786
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd backend && npm install"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
