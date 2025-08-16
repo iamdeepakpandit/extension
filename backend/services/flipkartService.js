@@ -2,73 +2,34 @@ const axios = require('axios');
 
 class FlipkartService {
   constructor() {
-    this.affiliateId = process.env.FLIPKART_AFFILIATE_ID || 'your_affiliate_id_here';
-    this.apiToken = process.env.FLIPKART_API_TOKEN || 'your_api_token_here';
+    this.baseURL = 'https://api.flipkart.com'; // This would be the real API endpoint
   }
 
-  async getPrice(productName) {
+  async searchProduct(productName) {
     try {
-      // For now, return dummy data
-      // TODO: Replace with actual Flipkart API call when credentials are configured
-      
-      if (!this.affiliateId || this.affiliateId === 'your_affiliate_id_here') {
-        return this.getDummyData(productName);
-      }
+      // Mock implementation - replace with real Flipkart API calls
+      console.log(`Searching Flipkart for: ${productName}`);
 
-      // Real API implementation (commented out for now)
-      /*
-      const options = {
-        method: 'GET',
-        url: 'https://affiliate-api.flipkart.net/affiliate/1.0/search.json',
-        params: {
-          query: productName,
-          resultCount: 1
-        },
-        headers: {
-          'Fk-Affiliate-Id': this.affiliateId,
-          'Fk-Affiliate-Token': this.apiToken
-        }
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 1200));
+
+      // Mock response
+      return {
+        price: `₹${Math.floor(Math.random() * 45000 + 25000)}`,
+        url: `https://flipkart.com/search?q=${encodeURIComponent(productName)}`,
+        available: true,
+        platform: 'flipkart'
       };
-
-      const response = await axios.request(options);
-      const product = response.data.products[0];
-
-      if (product) {
-        return {
-          price: product.productBaseInfoV1.flipkartSellingPrice.amount,
-          url: product.productBaseInfoV1.productUrl,
-          available: true,
-          title: product.productBaseInfoV1.title
-        };
-      }
-      */
-
-      return this.getDummyData(productName);
-
     } catch (error) {
-      console.error('Flipkart API Error:', error.message);
+      console.error('Flipkart API error:', error.message);
       return {
         price: null,
         url: null,
         available: false,
+        platform: 'flipkart',
         error: error.message
       };
     }
-  }
-
-  getDummyData(productName) {
-    // Generate realistic dummy prices (usually slightly different from Amazon)
-    const basePrice = Math.floor(Math.random() * 48000) + 1200;
-    const variation = Math.floor(Math.random() * 1500) - 750;
-    const finalPrice = Math.max(basePrice + variation, 600);
-
-    return {
-      price: `₹${finalPrice.toLocaleString('en-IN')}`,
-      url: `https://flipkart.com/search?q=${encodeURIComponent(productName)}`,
-      available: true,
-      title: productName,
-      platform: 'flipkart'
-    };
   }
 }
 

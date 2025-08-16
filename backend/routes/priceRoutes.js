@@ -1,3 +1,4 @@
+
 const express = require('express');
 const amazonService = require('../services/amazonService');
 const flipkartService = require('../services/flipkartService');
@@ -10,68 +11,80 @@ router.post('/', async (req, res) => {
   try {
     const { productName, currentPrice, platform } = req.body;
 
-    if (!productName || typeof productName !== 'string' || productName.trim().length === 0) {
-      return res.status(400).json({ 
-        error: 'Valid product name is required' 
+    if (!productName) {
+      return res.status(400).json({
+        error: 'Product name is required'
       });
     }
 
-    console.log(`🔍 Fetching prices for: ${productName}`);
+    console.log(`Price comparison request for: ${productName}`);
 
-    // Fetch prices from all platforms concurrently
-    const [amazonData, flipkartData, bigbasketData] = await Promise.allSettled([
-      amazonService.getPrice(productName),
-      flipkartService.getPrice(productName),
-      bigbasketService.getPrice(productName)
-    ]);
+    // Search all platforms concurrently
+    const searchPromises = [
+      amazonService.searchProduct(productName),
+      flipkartService.searchProduct(productName),
+      bigbasketService.searchProduct(productName)
+    ];
 
+    const results = await Promise.allSettled(searchPromises);
+    
     // Process results
-    const prices = {
-      amazon: amazonData.status === 'fulfilled' ? amazonData.value : null,
-      flipkart: flipkartData.status === 'fulfilled' ? flipkartData.value : null,
-      bigbasket: bigbasketData.status === 'fulfilled' ? bigbasketData.value : null
-    };
+    const prices = {};
+    results.forEach((result, index) => {
+      const platforms = ['amazon', 'flipkart', 'bigbasket'];
+      const platformName = platforms[index];
+      
+      if (result.status === 'fulfilled') {
+        prices[platformName] = result.value;
+      } else {
+        prices[platformName] = {
+          price: null,
+          url: null,
+          available: false,
+          platform: platformName,
+          error: result.reason?.message || 'Unknown error'
+        };
+      }
+    });
 
     // Find best deal
-    const availablePrices = Object.entries(prices)
-      .filter(([_, data]) => data && data.available && data.price)
-      .map(([platform, data]) => {
-        // Improved price parsing to handle various formats
-        const priceString = data.price.toString();
-        const cleanedPrice = priceString.replace(/[₹$,\s]/g, '');
-        const numericPrice = parseFloat(cleanedPrice);
-        
-        return {
-          platform,
-          price: isNaN(numericPrice) ? 0 : numericPrice,
-          displayPrice: data.price
-        };
-      })
-      .filter(item => item.price > 0); // Filter out invalid prices
+    const availablePrices = Object.values(prices).filter(p => p.available && p.price);
+    let bestDeal = null;
 
-    const bestDeal = availablePrices.length > 0 
-      ? availablePrices.reduce((min, current) => 
-          current.price < min.price ? current : min
-        )
-      : null;
+    if (availablePrices.length > 0) {
+      const priceNumbers = availablePrices.map(p => {
+        const priceStr = p.price.replace(/[₹,]/g, '');
+        return { ...p, numericPrice: parseInt(priceStr) };
+      });
+      
+      const cheapest = priceNumbers.reduce((min, current) => 
+        current.numericPrice < min.numericPrice ? current : min
+      );
+      
+      bestDeal = {
+        platform: cheapest.platform,
+        price: cheapest.numericPrice,
+        displayPrice: cheapest.price
+      };
+    }
 
+    // Response
     const response = {
       productName,
-      currentPlatform: platform,
-      currentPrice,
+      currentPlatform: platform || 'unknown',
+      currentPrice: currentPrice || 'Unknown',
       timestamp: new Date().toISOString(),
       prices,
       bestDeal
     };
 
-    console.log(`✅ Price comparison completed for: ${productName}`);
     res.json(response);
 
   } catch (error) {
-    console.error('❌ Error in price comparison:', error.message);
-    res.status(500).json({ 
-      error: 'Failed to fetch price comparison',
-      message: error.message 
+    console.error('Price comparison error:', error);
+    res.status(500).json({
+      error: 'Failed to compare prices',
+      message: error.message
     });
   }
 });
