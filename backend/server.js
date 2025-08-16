@@ -59,4 +59,5 @@ app.use('*', (req, res) => {
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Price Checker Backend running on port ${PORT}`);
   console.log(`📊 Health check: http://0.0.0.0:${PORT}/api/health`);
+  console.log(`🌐 Preview URL: https://${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co/api/health`);
 });
