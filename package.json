@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "start": "node index.js",
+    "dev": "cd backend && npm run dev",
     "backend": "cd backend && npm start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
