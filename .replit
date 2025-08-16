@@ -31,3 +31,7 @@ args = "cd backend && npm install"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "cd backend && npm start"
+
+[[ports]]
+localPort = 5000
+externalPort = 80
