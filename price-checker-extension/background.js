@@ -1,6 +1,8 @@
 // Background service worker for Chrome Extension
 
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = window.location.hostname.includes('replit') 
+  ? `https://${window.location.hostname}/api` 
+  : 'http://localhost:5000/api';
 
 // Listen for messages from content script or popup
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {

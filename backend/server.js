@@ -1,3 +1,4 @@
+
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
@@ -12,11 +13,14 @@ const PORT = process.env.PORT || 5000;
 // Middleware
 app.use(cors({
   origin: function (origin, callback) {
-    // Allow chrome-extension origins, localhost, and no origin (for mobile apps)
+    // Allow chrome-extension origins, localhost, Replit domains, and no origin (for mobile apps)
     if (!origin || 
         origin.startsWith('chrome-extension://') || 
         origin.startsWith('http://localhost') ||
-        origin.startsWith('https://localhost')) {
+        origin.startsWith('https://localhost') ||
+        origin.includes('replit.dev') ||
+        origin.includes('replit.co') ||
+        origin.includes('replit.app')) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
@@ -52,7 +56,7 @@ app.use('*', (req, res) => {
   res.status(404).json({ error: 'Route not found' });
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Price Checker Backend running on port ${PORT}`);
-  console.log(`📊 Health check: http://localhost:${PORT}/api/health`);
+  console.log(`📊 Health check: http://0.0.0.0:${PORT}/api/health`);
 });

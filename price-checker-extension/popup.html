@@ -189,3 +189,143 @@
     <script src="popup.js"></script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Price Checker</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="popup-container">
+    <!-- Header -->
+    <div class="popup-header">
+      <div class="header-content">
+        <div class="logo">
+          <span class="logo-icon">💰</span>
+          <span class="logo-text">Price Checker</span>
+        </div>
+        <div id="status-indicator" class="status-indicator">
+          <div class="status-dot"></div>
+          <span class="status-text">Checking...</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="popup-content">
+      <!-- Welcome State -->
+      <div id="welcome-state" class="state active">
+        <div class="welcome-content">
+          <div class="welcome-icon">🛍️</div>
+          <h2>Find the Best Deals</h2>
+          <p>Compare prices across Amazon, Flipkart, and BigBasket instantly.</p>
+          <button id="check-current-page" class="primary-button">
+            Check Current Page
+          </button>
+          <div class="features">
+            <div class="feature">
+              <span class="feature-icon">⚡</span>
+              <span>Real-time comparison</span>
+            </div>
+            <div class="feature">
+              <span class="feature-icon">🎯</span>
+              <span>Best deal detection</span>
+            </div>
+            <div class="feature">
+              <span class="feature-icon">💾</span>
+              <span>Save money instantly</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Loading State -->
+      <div id="loading-state" class="state">
+        <div class="loading-content">
+          <div class="loading-spinner"></div>
+          <h3>Comparing Prices...</h3>
+          <p>Finding the best deals for you</p>
+          <div class="loading-steps">
+            <div class="step">Extracting product info</div>
+            <div class="step">Searching Amazon</div>
+            <div class="step">Searching Flipkart</div>
+            <div class="step">Searching BigBasket</div>
+            <div class="step">Finding best deal</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results State -->
+      <div id="results-state" class="state">
+        <div class="results-content">
+          <div class="product-info">
+            <h3 id="product-name">Product Name</h3>
+            <div class="current-info">
+              <span id="current-platform">PLATFORM</span>
+              <span id="current-price">₹0</span>
+            </div>
+          </div>
+
+          <div id="best-deal" class="best-deal-banner hidden">
+            <div id="best-deal-details"></div>
+          </div>
+
+          <div id="price-cards" class="price-cards">
+            <!-- Price cards will be dynamically generated -->
+          </div>
+
+          <div class="action-buttons">
+            <button id="check-again" class="secondary-button">Check Again</button>
+            <button id="share-results" class="primary-button">Share Results</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Error State -->
+      <div id="error-state" class="state">
+        <div class="error-content">
+          <div class="error-icon">⚠️</div>
+          <h3>Oops! Something went wrong</h3>
+          <p id="error-message">An error occurred while fetching prices.</p>
+          <div class="error-actions">
+            <button id="retry-button" class="primary-button">Try Again</button>
+            <button id="check-backend" class="secondary-button">Check Backend</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Not Supported State -->
+      <div id="not-supported-state" class="state">
+        <div class="not-supported-content">
+          <div class="not-supported-icon">🚫</div>
+          <h3>Site Not Supported</h3>
+          <p>This extension works on:</p>
+          <ul class="supported-sites">
+            <li>Amazon India (amazon.in)</li>
+            <li>Amazon US (amazon.com)</li>
+            <li>Flipkart (flipkart.com)</li>
+            <li>BigBasket (bigbasket.com)</li>
+          </ul>
+          <p>Visit any product page on these sites to compare prices.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="popup-footer">
+      <button id="settings-button" class="footer-button">
+        <span>⚙️</span>
+        Settings
+      </button>
+      <button id="feedback-button" class="footer-button">
+        <span>📝</span>
+        Feedback
+      </button>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

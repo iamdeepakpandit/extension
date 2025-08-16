@@ -78,9 +78,9 @@ class PriceCheckerPopup {
   async checkBackendStatus() {
     try {
       this.updateStatusIndicator('checking', 'Checking backend...');
-      
+
       const response = await this.sendMessageToBackground('checkHealth');
-      
+
       if (response.success) {
         this.updateStatusIndicator('connected', 'Backend online');
       } else {
@@ -96,7 +96,7 @@ class PriceCheckerPopup {
     const indicator = document.getElementById('status-indicator');
     const dot = indicator.querySelector('.status-dot');
     const textElement = indicator.querySelector('.status-text');
-    
+
     // Remove all status classes
     dot.className = 'status-dot';
     // Add current status class
@@ -106,14 +106,14 @@ class PriceCheckerPopup {
 
   isSupportedSite(url) {
     if (!url) return false;
-    
+
     const supportedDomains = [
       'amazon.in',
       'amazon.com',
       'flipkart.com',
       'bigbasket.com'
     ];
-    
+
     return supportedDomains.some(domain => url.includes(domain));
   }
 
@@ -124,7 +124,7 @@ class PriceCheckerPopup {
 
       // Get current tab
       const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-      
+
       if (!this.isSupportedSite(tab.url)) {
         this.setState('not-supported');
         return;
@@ -139,7 +139,7 @@ class PriceCheckerPopup {
       });
 
       const productInfo = results[0]?.result;
-      
+
       if (!productInfo) {
         throw new Error('Could not extract product information from this page');
       }
@@ -218,18 +218,18 @@ class PriceCheckerPopup {
 
     function cleanPrice(priceText) {
       if (!priceText) return null;
-      
+
       const cleanText = priceText.replace(/\s+/g, ' ').trim();
       const priceMatch = cleanText.match(/[₹$][\d,]+(?:\.\d{2})?/);
       if (priceMatch) {
         return priceMatch[0];
       }
-      
+
       const numberMatch = cleanText.match(/[\d,]+(?:\.\d{2})?/);
       if (numberMatch) {
         return `₹${numberMatch[0]}`;
       }
-      
+
       return cleanText;
     }
 
@@ -286,10 +286,10 @@ class PriceCheckerPopup {
 
   setState(state) {
     this.currentState = state;
-    
+
     // Hide all states
     document.querySelectorAll('.state').forEach(el => el.classList.remove('active'));
-    
+
     // Show current state
     const currentStateEl = document.getElementById(`${state}-state`);
     if (currentStateEl) {
@@ -299,7 +299,7 @@ class PriceCheckerPopup {
 
   showResults(data) {
     this.lastResults = data;
-    
+
     // Update product info
     document.getElementById('product-name').textContent = data.productName || 'Unknown Product';
     document.getElementById('current-platform').textContent = (data.currentPlatform || 'unknown').toUpperCase();
@@ -329,10 +329,10 @@ class PriceCheckerPopup {
     platforms.forEach(platform => {
       const data = prices[platform.key];
       const isBestDeal = bestDeal && bestDeal.platform === platform.key;
-      
+
       const card = document.createElement('div');
       card.className = `price-card ${data.available ? 'available' : 'unavailable'} ${isBestDeal ? 'best-deal' : ''}`;
-      
+
       card.innerHTML = `
         <div class="card-header">
           <span class="platform-icon">${platform.icon}</span>
@@ -361,11 +361,11 @@ class PriceCheckerPopup {
   showBestDeal(bestDeal) {
     const banner = document.getElementById('best-deal');
     const details = document.getElementById('best-deal-details');
-    
+
     details.innerHTML = `
       Save with <strong>${bestDeal.platform.toUpperCase()}</strong> at ${bestDeal.displayPrice}
     `;
-    
+
     banner.classList.remove('hidden');
   }
 
@@ -378,7 +378,7 @@ class PriceCheckerPopup {
     if (!this.lastResults) return;
 
     const shareText = this.generateShareText(this.lastResults);
-    
+
     try {
       if (navigator.share) {
         await navigator.share({
@@ -398,19 +398,19 @@ class PriceCheckerPopup {
 
   generateShareText(data) {
     let text = `💰 Price Comparison for "${data.productName}"\n\n`;
-    
+
     const platforms = ['amazon', 'flipkart', 'bigbasket'];
     const names = { amazon: 'Amazon', flipkart: 'Flipkart', bigbasket: 'BigBasket' };
-    
+
     platforms.forEach(platform => {
       const price = data.prices[platform];
       text += `${names[platform]}: ${price.available ? price.price : 'Not Available'}\n`;
     });
-    
+
     if (data.bestDeal) {
       text += `\n🎯 Best Deal: ${data.bestDeal.platform.toUpperCase()} - ${data.bestDeal.displayPrice}`;
     }
-    
+
     text += '\n\nFound using Price Checker Extension';
     return text;
   }
@@ -425,7 +425,7 @@ class PriceCheckerPopup {
     const email = 'feedback@pricechecker.com';
     const subject = 'Price Checker Extension Feedback';
     const body = 'Hi! I have feedback about the Price Checker extension:\n\n';
-    
+
     window.open(`mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`);
   }
 
@@ -435,7 +435,7 @@ class PriceCheckerPopup {
     toast.className = 'toast';
     toast.textContent = message;
     document.body.appendChild(toast);
-    
+
     setTimeout(() => {
       toast.remove();
     }, 3000);
