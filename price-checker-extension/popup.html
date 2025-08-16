@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Price Checker</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="popup-container">
+        <!-- Header -->
+        <div class="popup-header">
+            <div class="header-content">
+                <div class="logo">
+                    <span class="logo-icon">💰</span>
+                    <span class="logo-text">Price Checker</span>
+                </div>
+                <div class="status-indicator" id="status-indicator">
+                    <span class="status-dot"></span>
+                    <span class="status-text">Checking...</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="popup-content">
+            <!-- Welcome State -->
+            <div id="welcome-state" class="state active">
+                <div class="welcome-content">
+                    <div class="welcome-icon">🛒</div>
+                    <h2>Welcome to Price Checker!</h2>
+                    <p>Visit any product page on Amazon, Flipkart, or BigBasket to get instant price comparisons.</p>
+                    
+                    <div class="supported-platforms">
+                        <h3>Supported Platforms:</h3>
+                        <div class="platform-list">
+                            <div class="platform-item">
+                                <span class="platform-icon">📦</span>
+                                <span>Amazon</span>
+                            </div>
+                            <div class="platform-item">
+                                <span class="platform-icon">🛍️</span>
+                                <span>Flipkart</span>
+                            </div>
+                            <div class="platform-item">
+                                <span class="platform-icon">🥬</span>
+                                <span>BigBasket</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button id="check-current-page" class="primary-button">
+                        Check Current Page
+                    </button>
+                </div>
+            </div>
+
+            <!-- Loading State -->
+            <div id="loading-state" class="state">
+                <div class="loading-content">
+                    <div class="loading-spinner"></div>
+                    <h3>Fetching prices...</h3>
+                    <p>Comparing prices across platforms</p>
+                    <div class="loading-steps">
+                        <div class="step active">
+                            <span class="step-dot"></span>
+                            <span>Extracting product info</span>
+                        </div>
+                        <div class="step">
+                            <span class="step-dot"></span>
+                            <span>Searching Amazon</span>
+                        </div>
+                        <div class="step">
+                            <span class="step-dot"></span>
+                            <span>Searching Flipkart</span>
+                        </div>
+                        <div class="step">
+                            <span class="step-dot"></span>
+                            <span>Searching BigBasket</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results State -->
+            <div id="results-state" class="state">
+                <div class="results-content">
+                    <div class="product-info">
+                        <h3 id="product-name">Product Name</h3>
+                        <div class="product-meta">
+                            <span id="current-platform">Current Platform</span>
+                            <span id="current-price">Current Price</span>
+                        </div>
+                    </div>
+
+                    <div class="price-comparison">
+                        <h4>Price Comparison</h4>
+                        <div id="price-cards" class="price-cards">
+                            <!-- Price cards will be inserted here -->
+                        </div>
+                    </div>
+
+                    <div id="best-deal" class="best-deal-banner hidden">
+                        <div class="best-deal-content">
+                            <span class="best-deal-icon">🎯</span>
+                            <div class="best-deal-text">
+                                <strong>Best Deal Found!</strong>
+                                <span id="best-deal-details">Details</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button id="check-again" class="secondary-button">
+                            Check Again
+                        </button>
+                        <button id="share-results" class="primary-button">
+                            Share Results
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Error State -->
+            <div id="error-state" class="state">
+                <div class="error-content">
+                    <div class="error-icon">⚠️</div>
+                    <h3>Something went wrong</h3>
+                    <p id="error-message">Unable to fetch price comparison at the moment.</p>
+                    
+                    <div class="error-actions">
+                        <button id="retry-button" class="primary-button">
+                            Try Again
+                        </button>
+                        <button id="check-backend" class="secondary-button">
+                            Check Backend Status
+                        </button>
+                    </div>
+
+                    <div class="troubleshooting">
+                        <details>
+                            <summary>Troubleshooting Tips</summary>
+                            <ul>
+                                <li>Make sure you're on a supported product page</li>
+                                <li>Check your internet connection</li>
+                                <li>Ensure the backend server is running</li>
+                                <li>Try refreshing the page and checking again</li>
+                            </ul>
+                        </details>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Not Supported State -->
+            <div id="not-supported-state" class="state">
+                <div class="not-supported-content">
+                    <div class="not-supported-icon">🚫</div>
+                    <h3>Page Not Supported</h3>
+                    <p>This extension works on product pages from supported platforms.</p>
+                    
+                    <div class="supported-domains">
+                        <h4>Visit these sites:</h4>
+                        <div class="domain-list">
+                            <a href="https://amazon.in" target="_blank">amazon.in</a>
+                            <a href="https://flipkart.com" target="_blank">flipkart.com</a>
+                            <a href="https://bigbasket.com" target="_blank">bigbasket.com</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="popup-footer">
+            <div class="footer-links">
+                <button id="settings-button" class="footer-link">
+                    ⚙️ Settings
+                </button>
+                <button id="feedback-button" class="footer-link">
+                    💬 Feedback
+                </button>
+            </div>
+            <div class="footer-info">
+                <span>v1.0.0</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,322 @@
+/* Content script styles for price checker widget */
+
+#price-checker-widget {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 380px;
+  max-height: 500px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  z-index: 2147483647;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  line-height: 1.4;
+  overflow: hidden;
+  animation: slideInRight 0.3s ease-out;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.pc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.pc-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.pc-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+.pc-close:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.pc-content {
+  padding: 20px;
+}
+
+.pc-product {
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e1e5e9;
+}
+
+.pc-product h4 {
+  margin: 0 0 4px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #2d3748;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.pc-product small {
+  color: #718096;
+  font-size: 12px;
+}
+
+.pc-prices {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pc-price-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  border-radius: 8px;
+  border: 2px solid #e2e8f0;
+  background: #f8fafc;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.pc-price-card.available {
+  border-color: #48bb78;
+  background: #f0fff4;
+}
+
+.pc-price-card.best-deal {
+  border-color: #ed8936;
+  background: #fffaf0;
+  transform: scale(1.02);
+}
+
+.pc-price-card.unavailable {
+  border-color: #e2e8f0;
+  background: #f7fafc;
+  opacity: 0.7;
+}
+
+.pc-platform {
+  font-weight: 600;
+  color: #2d3748;
+  font-size: 13px;
+}
+
+.pc-price {
+  font-weight: 700;
+  font-size: 15px;
+  color: #1a202c;
+}
+
+.pc-price-card.unavailable .pc-price {
+  color: #a0aec0;
+  font-style: italic;
+}
+
+.pc-link {
+  font-size: 11px;
+  color: #3182ce;
+  text-decoration: none;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(49, 130, 206, 0.1);
+  transition: background-color 0.2s;
+}
+
+.pc-link:hover {
+  background: rgba(49, 130, 206, 0.2);
+}
+
+.pc-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background: #ed8936;
+  color: white;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 0 8px 0 8px;
+  text-transform: uppercase;
+}
+
+.pc-best-deal {
+  margin-top: 12px;
+  padding: 10px;
+  background: linear-gradient(135deg, #48bb78, #38a169);
+  color: white;
+  border-radius: 6px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+/* Price check indicator */
+#price-check-indicator {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 2147483646;
+  animation: bounceIn 0.5s ease-out;
+}
+
+@keyframes bounceIn {
+  from {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.pci-content {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 12px 16px;
+  border-radius: 25px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.pci-icon {
+  font-size: 16px;
+}
+
+.pci-text {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.pci-button {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 15px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.pci-button:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Loading indicator */
+#price-checker-loading {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2147483647;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.pcl-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 10px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.pcl-message {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Error indicator */
+#price-checker-error {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2147483647;
+  background: #fed7d7;
+  color: #c53030;
+  border: 1px solid #feb2b2;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  box-shadow: 0 4px 12px rgba(197, 48, 48, 0.15);
+}
+
+.pce-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pce-icon {
+  font-size: 16px;
+}
+
+.pce-message {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.pce-close {
+  background: none;
+  border: none;
+  color: #c53030;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.pce-close:hover {
+  background: rgba(197, 48, 48, 0.1);
+}

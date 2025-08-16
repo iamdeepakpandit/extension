@@ -1,0 +1,6 @@
+<!-- This would be a 16x16 PNG icon file -->
+<!-- For now, we'll create a simple SVG that can be converted to PNG -->
+<svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+  <rect width="16" height="16" rx="3" fill="#667eea"/>
+  <text x="8" y="12" text-anchor="middle" font-size="10" fill="white">💰</text>
+</svg>

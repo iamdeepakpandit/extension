@@ -1,0 +1,43 @@
+{
+  "name": "Real-time Price Checker",
+  "version": "1.0.0",
+  "manifest_version": 3,
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage"
+  ],
+  "host_permissions": [
+    "https://www.amazon.in/*",
+    "https://www.amazon.com/*",
+    "https://www.flipkart.com/*",
+    "https://www.bigbasket.com/*",
+    "http://localhost:5000/*",
+    "https://*.vercel.app/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.amazon.in/*",
+        "https://www.amazon.com/*",
+        "https://www.flipkart.com/*",
+        "https://www.bigbasket.com/*"
+      ],
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "run_at": "document_end"
+    }
+  ],
+  "icons": {
+    "16": "project/price-checker-extension/icons/icon48.png",
+    "48": "project/price-checker-extension/icons/icon48.png",
+    "128": "project/price-checker-extension/icons/icon48.png"
+  }
+}
